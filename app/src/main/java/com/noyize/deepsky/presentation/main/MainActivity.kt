@@ -1,7 +1,8 @@
-package com.noyize.deepsky
+package com.noyize.deepsky.presentation.main
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import com.noyize.deepsky.R
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
