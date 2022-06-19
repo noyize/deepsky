@@ -27,6 +27,7 @@ class FactsFragment : Fragment(R.layout.fragment_facts),SpaceFactAdapter.ClickLi
     }
 
     override fun onClick(position: Int) {
+        mainViewModel.selectedIndex = position
         findNavController().navigate(FactsFragmentDirections.actionFactsFragmentToDetailFragment())
     }
 }
