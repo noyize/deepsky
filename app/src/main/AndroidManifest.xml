@@ -3,6 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.noyize.deepsky">
 
+    <uses-permission android:name="android.permission.INTERNET"/>
+
     <application
         android:name=".app.DeepskyApp"
         android:allowBackup="true"
