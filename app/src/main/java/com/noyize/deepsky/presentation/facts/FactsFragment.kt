@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
+import androidx.navigation.fragment.findNavController
 import com.noyize.deepsky.R
 import com.noyize.deepsky.databinding.FragmentFactsBinding
 import com.noyize.deepsky.presentation.main.MainViewModel
@@ -26,6 +27,6 @@ class FactsFragment : Fragment(R.layout.fragment_facts),SpaceFactAdapter.ClickLi
     }
 
     override fun onClick(position: Int) {
-        TODO("Not yet implemented")
+        findNavController().navigate(FactsFragmentDirections.actionFactsFragmentToDetailFragment())
     }
 }
