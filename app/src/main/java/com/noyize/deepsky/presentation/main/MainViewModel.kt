@@ -9,5 +9,5 @@ import javax.inject.Inject
 class MainViewModel @Inject constructor(getSortedSpaceFacts: GetSortedSpaceFacts) : ViewModel() {
 
     val spaceFacts = getSortedSpaceFacts()
-
+    var selectedIndex = 0
 }
