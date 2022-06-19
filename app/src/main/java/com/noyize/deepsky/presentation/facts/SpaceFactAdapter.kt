@@ -31,6 +31,8 @@ class SpaceFactAdapter(private val listener: ClickListener) :
         fun bind(spaceFact: SpaceFact, position: Int) {
             with(binding) {
                 thumbnail.load(spaceFact.imageUrl)
+                title.text = spaceFact.title
+                date.text = spaceFact.date
                 root.setOnClickListener { listener.onClick(position) }
             }
         }
