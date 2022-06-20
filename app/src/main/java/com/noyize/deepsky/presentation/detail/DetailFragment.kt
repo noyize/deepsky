@@ -11,6 +11,7 @@ import com.noyize.deepsky.R
 import com.noyize.deepsky.databinding.FragmentDetailBinding
 import com.noyize.deepsky.presentation.facts.SpaceFactAdapter
 import com.noyize.deepsky.presentation.main.MainViewModel
+import com.noyize.deepsky.presentation.widget.ZoomOutPageTransformer
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -30,5 +31,6 @@ class DetailFragment : Fragment(R.layout.fragment_detail) {
     private fun setUpViewPager() {
         binding.viewPager.adapter = spaceFactDetailAdapter
         binding.viewPager.setCurrentItem(mainViewModel.selectedIndex, false)
+        binding.viewPager.setPageTransformer(ZoomOutPageTransformer())
     }
 }
