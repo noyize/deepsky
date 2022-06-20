@@ -1,15 +1,65 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.recyclerview.widget.RecyclerView xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/recyclerView"
+    android:id="@+id/factLayout"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:layout_margin="8dp"
-    android:overScrollMode="never"
-    android:transitionGroup="true"
-    app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
-    app:spanCount="2"
-    tools:context=".presentation.facts.FactsFragment"
-    tools:itemCount="10"
-    tools:listitem="@layout/item_space_fact" />
+    android:layout_height="match_parent">
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/appBar"
+        android:layout_width="match_parent"
+        android:layout_height="252dp"
+        android:background="@android:color/transparent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <com.google.android.material.appbar.CollapsingToolbarLayout
+            android:id="@+id/collapsingToolbarLayout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:collapsedTitleGravity="start"
+            app:collapsedTitleTextAppearance="@style/TextAppearance.AppCompat.Title"
+            app:collapsedTitleTextColor="?attr/colorOnSurface"
+            app:expandedTitleGravity="bottom"
+            app:expandedTitleMarginStart="16dp"
+            app:expandedTitleTextAppearance="@style/TextAppearance.MaterialComponents.Headline3"
+            app:expandedTitleTextColor="?attr/colorOnSurface"
+            app:layout_scrollFlags="scroll|exitUntilCollapsed"
+            app:maxLines="4"
+            app:title="@string/home_title"
+            app:titleEnabled="true">
+
+            <com.google.android.material.appbar.MaterialToolbar
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                android:background="@android:color/transparent"
+                app:contentInsetStartWithNavigation="0dp"
+                app:layout_collapseMode="pin"
+                app:navigationIcon="@drawable/ic_outline_nights_stay_24"
+                app:navigationIconTint="?attr/colorOnSurface"
+                app:title="@string/app_name" />
+
+        </com.google.android.material.appbar.CollapsingToolbarLayout>
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="8dp"
+        android:clipToPadding="false"
+        android:overScrollMode="never"
+        android:paddingBottom="80dp"
+        android:transitionGroup="true"
+        app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+        app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior"
+        app:spanCount="2"
+        tools:context=".presentation.facts.FactsFragment"
+        tools:itemCount="10"
+        tools:listitem="@layout/item_space_fact" />
+</androidx.coordinatorlayout.widget.CoordinatorLayout>
+
+

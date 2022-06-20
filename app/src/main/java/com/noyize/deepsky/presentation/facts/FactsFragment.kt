@@ -2,13 +2,10 @@ package com.noyize.deepsky.presentation.facts
 
 import android.os.Bundle
 import android.view.View
-import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.core.app.SharedElementCallback
-import androidx.core.view.doOnPreDraw
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
@@ -17,6 +14,8 @@ import com.noyize.deepsky.R
 import com.noyize.deepsky.databinding.FragmentFactsBinding
 import com.noyize.deepsky.presentation.main.MainViewModel
 import dagger.hilt.android.AndroidEntryPoint
+import dev.chrisbanes.insetter.applyInsetter
+
 
 @AndroidEntryPoint
 class FactsFragment : Fragment(R.layout.fragment_facts), SpaceFactAdapter.ClickListener {
@@ -36,42 +35,49 @@ class FactsFragment : Fragment(R.layout.fragment_facts), SpaceFactAdapter.ClickL
         binding = FragmentFactsBinding.bind(view)
         binding.recyclerView.adapter = spaceFactAdapter
         scrollToPosition()
+        binding.appBar.applyInsetter {
+            type(statusBars = true) {
+                padding()
+            }
+        }
     }
+
 
     /**
      * Scrolls the recycler view to show the last viewed item in the grid. This is important when
      * navigating back from the grid.
      */
     private fun scrollToPosition() {
-            binding.recyclerView.apply {
-                addOnLayoutChangeListener(object : View.OnLayoutChangeListener {
-                    override fun onLayoutChange(
-                        v: View,
-                        left: Int,
-                        top: Int,
-                        right: Int,
-                        bottom: Int,
-                        oldLeft: Int,
-                        oldTop: Int,
-                        oldRight: Int,
-                        oldBottom: Int
+        binding.recyclerView.apply {
+            addOnLayoutChangeListener(object : View.OnLayoutChangeListener {
+                override fun onLayoutChange(
+                    v: View,
+                    left: Int,
+                    top: Int,
+                    right: Int,
+                    bottom: Int,
+                    oldLeft: Int,
+                    oldTop: Int,
+                    oldRight: Int,
+                    oldBottom: Int
+                ) {
+                    removeOnLayoutChangeListener(this)
+                    val viewAtPosition = layoutManager?.getChildAt(mainViewModel.selectedIndex)
+                    // Scroll to position if the view for the current position is null (not currently part of
+                    // layout manager children), or it's not completely visible.
+                    if (viewAtPosition == null || layoutManager?.isViewPartiallyVisible(
+                            viewAtPosition,
+                            false,
+                            true
+                        ) == true
                     ) {
-                        removeOnLayoutChangeListener(this)
-                        val viewAtPosition = layoutManager?.getChildAt(mainViewModel.selectedIndex)
-                        // Scroll to position if the view for the current position is null (not currently part of
-                        // layout manager children), or it's not completely visible.
-                        if (viewAtPosition == null || layoutManager?.isViewPartiallyVisible(viewAtPosition, false, true) == true
-                        ) {
-                            post {
-                                layoutManager?.scrollToPosition(mainViewModel.selectedIndex)
-                                (view?.parent as? ViewGroup)?.doOnPreDraw {
-                                    startPostponedEnterTransition()
-                                }
-                            }
+                        post {
+                            layoutManager?.scrollToPosition(mainViewModel.selectedIndex)
                         }
-
                     }
-                })
+
+                }
+            })
         }
 
     }
@@ -110,5 +116,10 @@ class FactsFragment : Fragment(R.layout.fragment_facts), SpaceFactAdapter.ClickL
             FactsFragmentDirections.actionFactsFragmentToDetailFragment(),
             extras
         )
+    }
+
+    override fun onBindComplete(position: Int) {
+        if (mainViewModel.selectedIndex == position)
+            startPostponedEnterTransition()
     }
 }

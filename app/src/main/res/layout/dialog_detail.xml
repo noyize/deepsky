@@ -13,6 +13,7 @@
 
         <TextView
             android:id="@+id/title"
+            android:textColor="?attr/colorOnSurface"
             style="@style/TextAppearance.AppCompat.Title"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -26,6 +27,7 @@
 
         <TextView
             android:id="@+id/date"
+            android:textColor="?attr/colorOnSurface"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
@@ -37,6 +39,7 @@
             android:id="@+id/explanation"
             style="@style/TextAppearance.MaterialComponents.Body1"
             android:layout_width="0dp"
+            android:textColor="?attr/colorOnSurface"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginTop="16dp"

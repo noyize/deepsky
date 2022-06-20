@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Bottom Sheet -->
+    <style name="Animation.Tally.BottomSheetDialog" parent="Animation.MaterialComponents.BottomSheetDialog">
+        <item name="android:windowEnterAnimation">@anim/bottom_sheet_slide_in</item>
+        <item name="android:windowExitAnimation">@anim/bottom_sheet_slide_out</item>
+    </style>
+
+    <style name="Base.ThemeOverlay.Deepsky.BottomSheetDialog" parent="ThemeOverlay.MaterialComponents.BottomSheetDialog">
+        <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="android:backgroundDimEnabled">true</item>
+        <item name="android:colorBackground">@android:color/transparent</item>
+        <item name="android:windowIsFloating">false</item>
+        <item name="bottomSheetStyle">@style/AppModalStyle</item>
+        <item name="android:navigationBarColor">?attr/colorSurface</item>
+    </style>
+
+    <style name="AppModalStyle"
+        parent="Widget.Design.BottomSheet.Modal">
+        <item name="android:background">@drawable/round_dialog_background</item>
+    </style>
+
+    <style name="ThemeOverlay.Deepsky.BottomSheetDialog" parent="Base.ThemeOverlay.Deepsky.BottomSheetDialog" />
+
+</resources>

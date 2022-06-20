@@ -7,8 +7,10 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
+import com.noyize.deepsky.app.util.animateAndShow
 import com.noyize.deepsky.databinding.ItemSpaceFactDetailBinding
 import com.noyize.deepsky.domain.model.SpaceFact
+import dev.chrisbanes.insetter.applyInsetter
 
 class SpaceFactDetailAdapter(private val listener : ClickListener) :
     ListAdapter<SpaceFact, RecyclerView.ViewHolder>(SpaceFactDetailDiffCallback) {
@@ -35,7 +37,8 @@ class SpaceFactDetailAdapter(private val listener : ClickListener) :
                 title.text = spaceFact.title
                 date.text = spaceFact.date
                 ViewCompat.setTransitionName(spaceFactDetailImage,spaceFact.imageUrl)
-                moreDetailsButton.setOnClickListener { listener.onMoreDetailClick(spaceFact) }
+                learnMore.setOnClickListener { listener.onMoreDetailClick(spaceFact) }
+                detailView.animateAndShow()
             }
         }
     }

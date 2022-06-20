@@ -8,5 +8,6 @@ inline fun ViewPager2.onPageChanged(crossinline pageChanged: (Int) -> Unit) {
             super.onPageSelected(position)
             pageChanged(position)
         }
+
     })
 }
