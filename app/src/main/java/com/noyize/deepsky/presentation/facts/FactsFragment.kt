@@ -1,14 +1,14 @@
 package com.noyize.deepsky.presentation.facts
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.core.app.SharedElementCallback
 import androidx.core.view.doOnPreDraw
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
@@ -19,11 +19,15 @@ import com.noyize.deepsky.presentation.main.MainViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class FactsFragment : Fragment(R.layout.fragment_facts),SpaceFactAdapter.ClickListener {
+class FactsFragment : Fragment(R.layout.fragment_facts), SpaceFactAdapter.ClickListener {
 
-    private lateinit var binding : FragmentFactsBinding
+    private lateinit var binding: FragmentFactsBinding
     private val mainViewModel by activityViewModels<MainViewModel>()
-    private val spaceFactAdapter by lazy { SpaceFactAdapter(this) }
+    private val spaceFactAdapter by lazy {
+        SpaceFactAdapter(this).apply {
+            submitList(mainViewModel.spaceFacts)
+        }
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -31,7 +35,6 @@ class FactsFragment : Fragment(R.layout.fragment_facts),SpaceFactAdapter.ClickLi
         postponeEnterTransition()
         binding = FragmentFactsBinding.bind(view)
         binding.recyclerView.adapter = spaceFactAdapter
-        spaceFactAdapter.submitList(mainViewModel.spaceFacts)
         scrollToPosition()
     }
 
@@ -40,35 +43,37 @@ class FactsFragment : Fragment(R.layout.fragment_facts),SpaceFactAdapter.ClickLi
      * navigating back from the grid.
      */
     private fun scrollToPosition() {
-        binding.recyclerView.addOnLayoutChangeListener(object : View.OnLayoutChangeListener {
-            override fun onLayoutChange(
-                v: View,
-                left: Int,
-                top: Int,
-                right: Int,
-                bottom: Int,
-                oldLeft: Int,
-                oldTop: Int,
-                oldRight: Int,
-                oldBottom: Int
-            ) {
-                binding.recyclerView.removeOnLayoutChangeListener(this)
-                val layoutManager = binding.recyclerView.layoutManager
-                val viewAtPosition = layoutManager?.getChildAt(mainViewModel.selectedIndex)
-                // Scroll to position if the view for the current position is null (not currently part of
-                // layout manager children), or it's not completely visible.
-                if (viewAtPosition == null || layoutManager
-                        .isViewPartiallyVisible(viewAtPosition, false, true)
-                ) {
-                    binding.recyclerView.post {
-                        layoutManager?.scrollToPosition(mainViewModel.selectedIndex)
+            binding.recyclerView.apply {
+                addOnLayoutChangeListener(object : View.OnLayoutChangeListener {
+                    override fun onLayoutChange(
+                        v: View,
+                        left: Int,
+                        top: Int,
+                        right: Int,
+                        bottom: Int,
+                        oldLeft: Int,
+                        oldTop: Int,
+                        oldRight: Int,
+                        oldBottom: Int
+                    ) {
+                        removeOnLayoutChangeListener(this)
+                        val viewAtPosition = layoutManager?.getChildAt(mainViewModel.selectedIndex)
+                        // Scroll to position if the view for the current position is null (not currently part of
+                        // layout manager children), or it's not completely visible.
+                        if (viewAtPosition == null || layoutManager?.isViewPartiallyVisible(viewAtPosition, false, true) == true
+                        ) {
+                            post {
+                                layoutManager?.scrollToPosition(mainViewModel.selectedIndex)
+                                (view?.parent as? ViewGroup)?.doOnPreDraw {
+                                    startPostponedEnterTransition()
+                                }
+                            }
+                        }
+
                     }
-                }
-                (view?.parent as? ViewGroup)?.doOnPreDraw {
-                    startPostponedEnterTransition()
-                }
-            }
-        })
+                })
+        }
+
     }
 
     /**
@@ -97,10 +102,13 @@ class FactsFragment : Fragment(R.layout.fragment_facts),SpaceFactAdapter.ClickLi
             })
     }
 
-    override fun onClick(position: Int,view: View) {
+    override fun onClick(position: Int, view: View) {
         mainViewModel.selectedIndex = position
         val extras =
             FragmentNavigatorExtras((view as ImageView) to view.transitionName)
-        findNavController().navigate(FactsFragmentDirections.actionFactsFragmentToDetailFragment(),extras)
+        findNavController().navigate(
+            FactsFragmentDirections.actionFactsFragmentToDetailFragment(),
+            extras
+        )
     }
 }
