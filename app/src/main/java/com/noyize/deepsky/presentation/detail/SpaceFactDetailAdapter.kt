@@ -29,6 +29,8 @@ class SpaceFactDetailAdapter() :
         fun bind(spaceFact: SpaceFact) {
             with(binding) {
                 spaceFactDetailImage.load(spaceFact.imageUrl)
+                title.text = spaceFact.title
+                date.text = spaceFact.date
             }
         }
     }
