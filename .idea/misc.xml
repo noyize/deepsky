@@ -3,6 +3,9 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/100441/StudioProjects/deepsky/app/src/main/res/drawable/ic_baseline_arrow_back_24.xml" value="0.1645" />
+        <entry key="..\:/Users/100441/StudioProjects/deepsky/app/src/main/res/drawable/ic_baseline_keyboard_arrow_down_24.xml" value="0.1" />
+        <entry key="..\:/Users/100441/StudioProjects/deepsky/app/src/main/res/drawable/ic_baseline_keyboard_arrow_up_24.xml" value="0.1645" />
         <entry key="..\:/Users/100441/StudioProjects/deepsky/app/src/main/res/layout/activity_main.xml" value="0.259375" />
         <entry key="..\:/Users/100441/StudioProjects/deepsky/app/src/main/res/layout/dialog_detail.xml" value="0.259375" />
         <entry key="..\:/Users/100441/StudioProjects/deepsky/app/src/main/res/layout/fragment_detail.xml" value="0.1" />

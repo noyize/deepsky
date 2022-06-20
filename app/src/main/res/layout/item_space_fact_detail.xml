@@ -63,7 +63,8 @@
             app:layout_constraintBottom_toBottomOf="@+id/date"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@+id/title"
-            app:srcCompat="@drawable/ic_baseline_keyboard_arrow_up_24" />
+            app:srcCompat="@drawable/ic_baseline_keyboard_arrow_up_24"
+           />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
