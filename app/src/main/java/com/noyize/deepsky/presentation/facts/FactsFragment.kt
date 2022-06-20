@@ -5,8 +5,14 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
+import androidx.core.app.SharedElementCallback
+import androidx.core.view.doOnPreDraw
 import androidx.fragment.app.activityViewModels
+import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.RecyclerView
+import androidx.transition.TransitionInflater
 import com.noyize.deepsky.R
 import com.noyize.deepsky.databinding.FragmentFactsBinding
 import com.noyize.deepsky.presentation.main.MainViewModel
@@ -21,13 +27,80 @@ class FactsFragment : Fragment(R.layout.fragment_facts),SpaceFactAdapter.ClickLi
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        prepareTransitions()
+        postponeEnterTransition()
         binding = FragmentFactsBinding.bind(view)
         binding.recyclerView.adapter = spaceFactAdapter
         spaceFactAdapter.submitList(mainViewModel.spaceFacts)
+        scrollToPosition()
     }
 
-    override fun onClick(position: Int) {
+    /**
+     * Scrolls the recycler view to show the last viewed item in the grid. This is important when
+     * navigating back from the grid.
+     */
+    private fun scrollToPosition() {
+        binding.recyclerView.addOnLayoutChangeListener(object : View.OnLayoutChangeListener {
+            override fun onLayoutChange(
+                v: View,
+                left: Int,
+                top: Int,
+                right: Int,
+                bottom: Int,
+                oldLeft: Int,
+                oldTop: Int,
+                oldRight: Int,
+                oldBottom: Int
+            ) {
+                binding.recyclerView.removeOnLayoutChangeListener(this)
+                val layoutManager = binding.recyclerView.layoutManager
+                val viewAtPosition = layoutManager?.getChildAt(mainViewModel.selectedIndex)
+                // Scroll to position if the view for the current position is null (not currently part of
+                // layout manager children), or it's not completely visible.
+                if (viewAtPosition == null || layoutManager
+                        .isViewPartiallyVisible(viewAtPosition, false, true)
+                ) {
+                    binding.recyclerView.post {
+                        layoutManager?.scrollToPosition(mainViewModel.selectedIndex)
+                    }
+                }
+                (view?.parent as? ViewGroup)?.doOnPreDraw {
+                    startPostponedEnterTransition()
+                }
+            }
+        })
+    }
+
+    /**
+     * Prepares the shared element transition to the pager fragment, as well as the other transitions
+     * that affect the flow.
+     */
+    private fun prepareTransitions() {
+        exitTransition = TransitionInflater.from(requireContext())
+            .inflateTransition(R.transition.grid_exit_transition)
+
+        // A similar mapping is set at the ImagePagerFragment with a setEnterSharedElementCallback.
+        setExitSharedElementCallback(
+            object : SharedElementCallback() {
+                override fun onMapSharedElements(
+                    names: List<String?>,
+                    sharedElements: MutableMap<String?, View?>
+                ) {
+                    // Locate the ViewHolder for the clicked position.
+                    val selectedViewHolder: RecyclerView.ViewHolder = binding.recyclerView
+                        .findViewHolderForAdapterPosition(mainViewModel.selectedIndex) ?: return
+
+                    // Map the first shared element name to the child ImageView.
+                    sharedElements[names[0]] =
+                        selectedViewHolder.itemView.findViewById(R.id.thumbnail)
+                }
+            })
+    }
+
+    override fun onClick(position: Int,view: View) {
         mainViewModel.selectedIndex = position
-        findNavController().navigate(FactsFragmentDirections.actionFactsFragmentToDetailFragment())
+        val extras =
+            FragmentNavigatorExtras((view as ImageView) to view.transitionName)
+        findNavController().navigate(FactsFragmentDirections.actionFactsFragmentToDetailFragment(),extras)
     }
 }

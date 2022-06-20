@@ -34,6 +34,7 @@ class SpaceFactDetailAdapter(private val listener : ClickListener) :
                 spaceFactDetailImage.load(spaceFact.imageUrl)
                 title.text = spaceFact.title
                 date.text = spaceFact.date
+                ViewCompat.setTransitionName(spaceFactDetailImage,spaceFact.imageUrl)
                 moreDetailsButton.setOnClickListener { listener.onMoreDetailClick(spaceFact) }
             }
         }

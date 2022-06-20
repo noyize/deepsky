@@ -1,7 +1,10 @@
 package com.noyize.deepsky.presentation.facts
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
+import androidx.core.view.ViewCompat
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
@@ -13,7 +16,7 @@ class SpaceFactAdapter(private val listener: ClickListener) :
     ListAdapter<SpaceFact, RecyclerView.ViewHolder>(DiffCallback) {
 
     interface ClickListener {
-        fun onClick(position: Int)
+        fun onClick(position: Int,view : View)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
@@ -33,7 +36,8 @@ class SpaceFactAdapter(private val listener: ClickListener) :
                 thumbnail.load(spaceFact.imageUrl)
                 title.text = spaceFact.title
                 date.text = spaceFact.date
-                root.setOnClickListener { listener.onClick(position) }
+                ViewCompat.setTransitionName(thumbnail,spaceFact.imageUrl)
+                root.setOnClickListener { listener.onClick(position,thumbnail) }
             }
         }
     }
