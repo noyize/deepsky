@@ -10,9 +10,12 @@ import coil.load
 import com.noyize.deepsky.databinding.ItemSpaceFactDetailBinding
 import com.noyize.deepsky.domain.model.SpaceFact
 
-class SpaceFactDetailAdapter() :
+class SpaceFactDetailAdapter(private val listener : ClickListener) :
     ListAdapter<SpaceFact, RecyclerView.ViewHolder>(SpaceFactDetailDiffCallback) {
 
+    interface ClickListener{
+        fun onMoreDetailClick(spaceFact: SpaceFact)
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         val binding =
@@ -31,6 +34,7 @@ class SpaceFactDetailAdapter() :
                 spaceFactDetailImage.load(spaceFact.imageUrl)
                 title.text = spaceFact.title
                 date.text = spaceFact.date
+                moreDetailsButton.setOnClickListener { listener.onMoreDetailClick(spaceFact) }
             }
         }
     }

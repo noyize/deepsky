@@ -7,19 +7,21 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import com.noyize.deepsky.R
 import com.noyize.deepsky.databinding.FragmentDetailBinding
+import com.noyize.deepsky.domain.model.SpaceFact
 import com.noyize.deepsky.presentation.facts.SpaceFactAdapter
 import com.noyize.deepsky.presentation.main.MainViewModel
 import com.noyize.deepsky.presentation.widget.ZoomOutPageTransformer
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class DetailFragment : Fragment(R.layout.fragment_detail) {
+class DetailFragment : Fragment(R.layout.fragment_detail),SpaceFactDetailAdapter.ClickListener {
 
     private lateinit var binding : FragmentDetailBinding
     private val mainViewModel by activityViewModels<MainViewModel>()
-    private val spaceFactDetailAdapter by lazy { SpaceFactDetailAdapter() }
+    private val spaceFactDetailAdapter by lazy { SpaceFactDetailAdapter(this) }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -28,9 +30,15 @@ class DetailFragment : Fragment(R.layout.fragment_detail) {
         setUpViewPager()
     }
 
+
+
     private fun setUpViewPager() {
         binding.viewPager.adapter = spaceFactDetailAdapter
         binding.viewPager.setCurrentItem(mainViewModel.selectedIndex, false)
         binding.viewPager.setPageTransformer(ZoomOutPageTransformer())
+    }
+
+    override fun onMoreDetailClick(spaceFact: SpaceFact) {
+        findNavController().navigate(DetailFragmentDirections.actionDetailFragmentToDetailBottomSheet(spaceFact))
     }
 }
