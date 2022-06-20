@@ -27,5 +27,9 @@
         android:id="@+id/detailBottomSheet"
         tools:layout="@layout/dialog_detail"
         android:name="com.noyize.deepsky.presentation.detail.sheet.DetailBottomSheet"
-        android:label="DetailBottomSheet" />
+        android:label="DetailBottomSheet" >
+        <argument
+            android:name="space_fact"
+            app:argType="com.noyize.deepsky.domain.model.SpaceFact" />
+    </dialog>
 </navigation>
