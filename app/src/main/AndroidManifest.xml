@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.noyize.deepsky">
 
-    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <application
         android:name=".app.DeepskyApp"
@@ -14,11 +14,13 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.Deepsky"
+        android:theme="@style/Theme.App.Starting"
         tools:targetApi="31">
+
         <activity
             android:name=".presentation.main.MainActivity"
-            android:exported="true">
+            android:exported="true"
+            android:theme="@style/Theme.Deepsky">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
