@@ -8,7 +8,7 @@
     <fragment
         android:id="@+id/factsFragment"
         android:name="com.noyize.deepsky.presentation.facts.FactsFragment"
-        android:label="fragment_facts"
+        android:label="@string/app_name"
         tools:layout="@layout/fragment_facts" >
         <action
             android:id="@+id/action_factsFragment_to_detailFragment"
@@ -17,6 +17,6 @@
     <fragment
         android:id="@+id/detailFragment"
         android:name="com.noyize.deepsky.presentation.detail.DetailFragment"
-        android:label="fragment_detail"
+        android:label="@string/detail"
         tools:layout="@layout/fragment_detail" />
 </navigation>
