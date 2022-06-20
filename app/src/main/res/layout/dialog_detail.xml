@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:paddingBottom="80dp"
     android:clipToPadding="false"
+    tools:context="com.noyize.deepsky.presentation.detail.sheet.DetailBottomSheet"
     android:layout_height="match_parent">
 
     <androidx.constraintlayout.widget.ConstraintLayout

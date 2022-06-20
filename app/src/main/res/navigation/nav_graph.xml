@@ -18,5 +18,14 @@
         android:id="@+id/detailFragment"
         android:name="com.noyize.deepsky.presentation.detail.DetailFragment"
         android:label="@string/detail"
-        tools:layout="@layout/fragment_detail" />
+        tools:layout="@layout/fragment_detail" >
+        <action
+            android:id="@+id/action_detailFragment_to_detailBottomSheet"
+            app:destination="@id/detailBottomSheet" />
+    </fragment>
+    <dialog
+        android:id="@+id/detailBottomSheet"
+        tools:layout="@layout/dialog_detail"
+        android:name="com.noyize.deepsky.presentation.detail.sheet.DetailBottomSheet"
+        android:label="DetailBottomSheet" />
 </navigation>
