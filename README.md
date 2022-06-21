@@ -27,3 +27,9 @@
 You need to have [Android Studio](https://developer.android.com/studio) Bumblebee or later to set
 up this project locally. After downloading all the requirements, please import the project into
 Android Studio, build the project, and click Run.
+
+<h2>TODO</h2>
+
+- Implement light theme
+- Testing
+
