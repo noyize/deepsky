@@ -21,6 +21,9 @@
 
 - 📐 Insetter
 
+<h2>Download</h2>
+
+Get the sample APK [here](https://github.com/noyize/deepsky/raw/main/demo/app-debug.apk)
 
 <h2>Project setup</h2>
 
