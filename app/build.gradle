@@ -1,3 +1,4 @@
+
 plugins {
     id 'com.android.application'
     id 'org.jetbrains.kotlin.android'
@@ -7,6 +8,8 @@ plugins {
     id 'androidx.navigation.safeargs.kotlin'
     id 'org.jetbrains.kotlin.plugin.serialization' version '1.6.21'
 }
+
+
 
 android {
     compileSdk 32
@@ -37,6 +40,7 @@ android {
     buildFeatures{
         viewBinding true
     }
+
 }
 
 dependencies {
