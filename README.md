@@ -1,6 +1,10 @@
 <h1>Deepsky</h1>
 <h4>Android app built with modern libraries to showcase NASA Astronomy Picture of the Day</h4>
 
+[![Build](https://github.com/noyize/deepsky/workflows/Build/badge.svg?branch=master)](https://github.com/noyize/deepsky/actions?query=workflow%3ABuild)
+[![Lint](https://github.com/noyize/deepsky/workflows/Lint/badge.svg?branch=master)](https://github.com/noyize/deepsky/actions?query=workflow%3ALint)
+
+
 <h2>Screenshots</h2>
 
 <p float="left">
