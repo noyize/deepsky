@@ -1,36 +1,26 @@
-name: Build
-on: [push, pull_request]
+name: Build & Publish Release APK
+
+on:
+  push:
+    tags:
+      - '*'
 
 jobs:
-  build_apk:
-    name: Generate APK
+  Gradle:
     runs-on: ubuntu-latest
-
     steps:
-      - uses: actions/checkout@v1
-      - name: Set up JDK 17
+      - name: checkout code
+        uses: actions/checkout@v2
+      - name: setup jdk
         uses: actions/setup-java@v1
         with:
-          java-version: 17
-
-      # Cache gradle
-      - name: Cache Gradle and wrapper
-        uses: actions/cache@v2
-        with:
-          path: |
-            ~/.gradle/caches
-            ~/.gradle/wrapper
-          key: cache-${{ runner.os }}-${{ matrix.jdk }}-gradle-${{ hashFiles('**/*.gradle*') }}
-          restore-keys: |
-            ${{ runner.os }}-gradle-
-
-      - name: Grant Permission to Execute
-        run: chmod +x gradlew
-
-      - name: Build debug APK
-        run: bash ./gradlew assembleDebug --stacktrace
-      - name: Upload APK
-        uses: actions/upload-artifact@v1
-        with:
-          name: app
-          path: app/build/outputs/apk/debug/app-debug.apk
+          java-version: 11
+      - name: Make Gradle executable
+        run: chmod +x ./gradlew
+      - name: Build Release APK
+        run: ./gradlew assembleRelease
+      - name: Releasing using Hub
+        uses: kyze8439690/action-release-releaseapk@master
+        env:
+          GITHUB_TOKEN: ${{ secrets.TOKEN }}
+          APP_FOLDER: app
